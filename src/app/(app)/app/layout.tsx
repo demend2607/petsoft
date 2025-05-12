@@ -1,6 +1,6 @@
 import Container from "@/widgets/container/Container";
+import BackgroundPattern from "@/widgets/container/BackgroundPattern";
 import Footer from "@/widgets/footer/Footer";
-import BackgroundPattern from "@/widgets/header/BackgroundPatternt";
 import Header from "@/widgets/header/Header";
 
 export default function Layout({

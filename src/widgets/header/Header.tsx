@@ -2,8 +2,8 @@
 
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-
 import Link from "next/link";
+
 import Logo from "./Logo";
 
 const routes = [
@@ -14,7 +14,7 @@ export default function Header() {
   const activePathName = usePathname();
 
   return (
-    <header className="flex justify-between items-center border-b border-white/10 h-12 px-3 md:px-9 text-xs ">
+    <header className="flex justify-between items-center border-b border-white/10 h-12 text-xs ">
       <Logo />
       <nav>
         <ul className="flex flex-row gap-x-4 items-center">

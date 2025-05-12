@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center bg-pattern gap-10 xl:flex-row">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-pattern gap-10 xl:flex-row">
       <Image src={PreviewImg} alt="Preview PetSoft" width={520} height={470} className="" />
       <section className="flex flex-col w-[400px]">
         <Logo />

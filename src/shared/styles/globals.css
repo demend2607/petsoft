@@ -5,28 +5,18 @@
 
 @theme {
     --color-bg: #E5E8EC;
-    --color-pattern: #5DC9A8;
+    --color-pattern: #45c09b;
 }
 
 @layer base {
+
+
     h1 {
         @apply text-5xl font-semibold;
     }
 
-    main {
-        @apply min-h-screen;
-    }
-
-    .general-btn {
-        @apply px-5 py-1.5 rounded-2xl cursor-pointer text-sm;
-    }
-
-    .primary-btn {
-        @apply bg-black text-white;
-    }
-
-    .secondary-btn {
-        @apply bg-bg text-black;
+    h2 {
+        @apply font-semibold text-2xl;
     }
 
     .link-active {
