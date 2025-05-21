@@ -6,21 +6,24 @@
 @theme {
     --color-bg: #E5E8EC;
     --color-pattern: #45c09b;
+    --color-light: rgba(0, 0, 0, 0.08)
 }
 
 @layer base {
-
-
     h1 {
-        @apply text-5xl font-semibold;
-    }
-
-    h2 {
-        @apply font-semibold text-2xl;
+        @apply text-2xl font-semibold;
     }
 
     .link-active {
         @apply rounded-xs py-1 px-2 bg-black/20;
+    }
+
+    .content-block {
+        @apply flex flex-col h-full w-full bg-gray-100 rounded-md shadow-sm overflow-hidden;
+    }
+
+    .pet-button {
+        @apply bg-slate-200 text-black hover:text-white;
     }
 }
 

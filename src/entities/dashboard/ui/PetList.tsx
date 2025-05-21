@@ -1,19 +1,30 @@
-import { PlusIcon, MinusIcon } from "@radix-ui/react-icons";
+"use client";
 
-import { Button } from "@/shared/components/ui/button";
+import { useEffect } from "react";
+
 import { PetSoft } from "../model/types";
+import { usePetsStore } from "../model/store";
+import { usePetSearchStore } from "@/features/petSearch/lib/store";
+import fetchPets from "../model/api";
 
 import PetCard from "./PetCard";
+import PetButton from "@/features/petButton/ui/PetButton";
 
-export default function PetList({ pets }: { pets: PetSoft[] }) {
+export default function PetList({ initialPets }: { initialPets: PetSoft[] }) {
+  const { pets, setPets } = usePetsStore();
+  const { filteredPets } = usePetSearchStore((state) => state);
+
+  useEffect(() => setPets(initialPets), []);
+  const filteredPetList = filteredPets(pets);
+  // const filteredPetsList = pets.filter((pet) => pet.name.toLowerCase().includes(searchQuery.toLowerCase())) || pets;
+
+  fetchPets();
   return (
-    <ul className="flex flex-col bg-gray-100 rounded-md h-full shadow-sm relative">
-      {pets.map((pet) => (
+    <ul className="content-block relative">
+      {filteredPetList.map((pet) => (
         <PetCard key={pet.name} pet={pet} />
       ))}
-      <Button className="absolute w-10 h-10 right-3 bottom-3 rounded-full">
-        <PlusIcon />
-      </Button>
+      <PetButton actionType="add" className="absolute right-3 bottom-3" />
     </ul>
   );
 }

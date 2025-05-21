@@ -1,57 +1,27 @@
 import PetList from "@/entities/dashboard/ui/PetList";
 import PetDetails from "@/entities/dashboard/ui/PetDetails";
-import SearchForm from "@/shared/ui/SearchForm";
-import { PetSoft } from "@/entities/dashboard/model/types";
+import SearchForm from "@/features/petSearch/ui/SearchForm";
+import fetchPets from "@/entities/dashboard/model/api";
+import PetStats from "@/entities/dashboard/ui/PetStats";
 
-export const petsList: PetSoft[] = [
-  {
-    id: "1",
-    name: "Benjamin",
-    ownerName: "John Doe",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=100&w=1935&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    age: 2,
-    notes: "Doesn't like to be touched on the belly. Plays well with other dogs.",
-  },
-  {
-    id: "2",
-    name: "Richard",
-    ownerName: "Josephine Dane",
-    imageUrl:
-      "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=100&w=1964&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    age: 5,
-    notes: "Needs medication twice a day.",
-  },
-  {
-    id: "3",
-    name: "Anna",
-    ownerName: "Frank Doe",
-    imageUrl:
-      "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&q=100&w=1970&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    age: 4,
-    notes: "Allergic to chicken.",
-  },
-];
+export default async function Page() {
+  const initialPets = await fetchPets();
 
-export default function Page() {
   return (
     <main className="flex flex-col">
       <section className="flex justify-between items-center text-white py-6">
         <div>
-          <h2>PetSoft</h2>
+          <h1 className="text-2xl">PetSoft</h1>
           <p className="text-white/75 font-semibold">Manage your pet daycare with ease</p>
         </div>
-        <div className="text-center">
-          <p className="text-2xl font-bold">2</p>
-          <p className="text-white/75">Current pets</p>
-        </div>
+        <PetStats />
       </section>
       <section className="flex max-md:flex-col gap-4 text-black h-[600px]">
         <div className="flex flex-col gap-4 w-[400px] max-md:w-full">
           <SearchForm />
-          <PetList pets={petsList} />
+          <PetList initialPets={initialPets} />
         </div>
-        <PetDetails pets={petsList} />
+        <PetDetails />
       </section>
     </main>
   );

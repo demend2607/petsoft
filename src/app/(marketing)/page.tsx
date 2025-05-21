@@ -11,7 +11,7 @@ export default function Home() {
       <Image src={PreviewImg} alt="Preview PetSoft" width={520} height={470} className="" />
       <section className="flex flex-col w-[400px]">
         <Logo />
-        <h1 className="my-6">
+        <h1 className="text-5xl font-semibold my-6">
           Manage your <span className="font-extrabold">pet daycare</span> with ease
         </h1>
         <p className="font-medium text-base">Use PetSoft to easily keep track of pets under your care. Get lifetime access for $299.</p>
