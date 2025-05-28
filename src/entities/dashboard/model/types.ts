@@ -13,6 +13,7 @@ export type PetsStoreT = {
   setPets: (pets: PetSoft[]) => void;
   selectedPet: () => PetSoft | undefined | null;
   setSelectedPetId: (petId: string) => void;
-  addPet: (pet: PetSoft) => void;
+  addPet: (newPet: Omit<PetSoft, "id">) => void;
+  editPet: (petId: string, updatedPet: Omit<PetSoft, "id">) => void;
   checkoutPet: (petId: string) => void;
 };

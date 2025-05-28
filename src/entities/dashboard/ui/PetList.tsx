@@ -16,13 +16,12 @@ export default function PetList({ initialPets }: { initialPets: PetSoft[] }) {
 
   useEffect(() => setPets(initialPets), []);
   const filteredPetList = filteredPets(pets);
-  // const filteredPetsList = pets.filter((pet) => pet.name.toLowerCase().includes(searchQuery.toLowerCase())) || pets;
 
   fetchPets();
   return (
     <ul className="content-block relative">
       {filteredPetList.map((pet) => (
-        <PetCard key={pet.name} pet={pet} />
+        <PetCard key={pet.id} pet={pet} />
       ))}
       <PetButton actionType="add" className="absolute right-3 bottom-3" />
     </ul>

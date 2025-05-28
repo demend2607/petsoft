@@ -11,7 +11,7 @@ export const usePetsStore = create<PetsStoreT>()(
       (set, get) => ({
         pets: [],
         selectedPetId: "",
-        setPets: (pets: PetSoft[]) => set({ pets: pets }),
+        setPets: (pets) => set({ pets: pets }),
         setSelectedPetId: (petId: string) => {
           if (get().selectedPetId === petId) set({ selectedPetId: "" });
           else {
@@ -23,7 +23,14 @@ export const usePetsStore = create<PetsStoreT>()(
           if (!selectedPetId) return undefined;
           return get().pets.find((pet) => pet.id === selectedPetId);
         },
-        addPet: (pet: PetSoft) => set((state) => ({ pets: [...state.pets, pet] })),
+        addPet: (newPet) => {
+          return set((state) => ({ pets: [...state.pets, { id: Date.now().toString(), ...newPet }] }));
+        },
+        editPet: (petId, updatedPet) => {
+          set((state) => ({
+            pets: state.pets.map((pet) => (pet.id === petId ? { id: pet.id, ...updatedPet } : pet)),
+          }));
+        },
         checkoutPet: (petId: string) => set((state) => ({ pets: state.pets.filter((pet) => pet.id !== petId) })),
       }),
       {
