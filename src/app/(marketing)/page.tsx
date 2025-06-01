@@ -1,14 +1,13 @@
 import Logo from "@/widgets/header/Logo";
 import Image from "next/image";
 
-import PreviewImg from "../../shared/assets/petsoft-preview.png";
 import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-pattern gap-10 xl:flex-row">
-      <Image src={PreviewImg} alt="Preview PetSoft" width={520} height={470} className="" />
+      <Image src="/petsoft-preview.png" priority={true} alt="Preview PetSoft" width={519} height={472} />
       <section className="flex flex-col w-[400px]">
         <Logo />
         <h1 className="text-5xl font-semibold my-6">
