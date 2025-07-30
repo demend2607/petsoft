@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
-import { PetSoft } from "../model/types";
 import { usePetsStore } from "../model/store";
 import { cn } from "@/shared/lib/hooks/utils";
+import { Pet } from "@/generated/prisma";
 
-export default function PetCard({ pet }: { pet: PetSoft }) {
+export default function PetCard({ pet }: { pet: Pet }) {
   const { setSelectedPetId, selectedPetId } = usePetsStore((state) => state);
 
   return (

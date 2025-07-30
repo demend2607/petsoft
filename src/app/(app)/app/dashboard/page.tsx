@@ -1,11 +1,13 @@
+import { getPets } from "@/features/petForm/lib/prisma_actions";
+
 import PetList from "@/entities/dashboard/ui/PetList";
 import PetDetails from "@/entities/dashboard/ui/PetDetails";
 import SearchForm from "@/features/petSearch/ui/SearchForm";
-import fetchPets from "@/entities/dashboard/model/api";
 import PetStats from "@/entities/dashboard/ui/PetStats";
+import { Toaster } from "@/shared/components/ui/sonner";
 
 export default async function Page() {
-  const initialPets = await fetchPets();
+  const initialPets = await getPets();
 
   return (
     <main className="flex flex-col">
@@ -23,6 +25,7 @@ export default async function Page() {
         </div>
         <PetDetails />
       </section>
+      <Toaster />
     </main>
   );
 }

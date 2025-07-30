@@ -1,7 +1,8 @@
-import { PetSoft } from "@/entities/dashboard/model/types";
+import { Pet } from "@/generated/prisma";
 
 export type PetsSearchStoreT = {
   searchQuery: string;
+  filteredPets: Pet[];
   setSearchQuery: (query: string) => void;
-  filteredPets: (pets: PetSoft[]) => PetSoft[];
+  filterPets: (pets: Pet[]) => void;
 };

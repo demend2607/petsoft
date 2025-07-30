@@ -1,12 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import { useTransition } from "react";
 
 import { usePetsStore } from "../model/store";
+import { deletePet } from "@/features/petForm/lib/prisma_actions";
+import { toast } from "sonner";
+
 import PetButton from "@/features/petButton/ui/PetButton";
 
 export default function PetDetails() {
-  const { selectedPet, checkoutPet } = usePetsStore((state) => state);
+  const { selectedPet } = usePetsStore((state) => state);
+  const [isPending, startTransition] = useTransition();
 
   const selectPet = selectedPet();
 
@@ -23,7 +28,16 @@ export default function PetDetails() {
             </div>
             <div className="flex flex-row gap-2 max-sm:flex-col ml-auto">
               <PetButton actionType="edit">Edit</PetButton>
-              <PetButton actionType="checkout" onClick={() => checkoutPet(selectPet.id)}>
+              <PetButton
+                actionType="checkout"
+                disabled={isPending}
+                onClick={async () => {
+                  startTransition(async () => {
+                    await deletePet(selectPet.id);
+                    toast.success("Pet deleted");
+                  });
+                }}
+              >
                 Checkout
               </PetButton>
             </div>

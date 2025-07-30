@@ -4,17 +4,17 @@ import { cn } from "@/shared/lib/hooks/utils";
 
 import { Button } from "@/shared/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogHeader, DialogFooter } from "@/shared/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogHeader, DialogDescription } from "@/shared/components/ui/dialog";
 
 import { PetButtonT } from "../lib/types";
 import PetForm from "@/features/petForm/ui/PetForm";
 import { useState } from "react";
 
-export default function PetButton({ children, className, actionType, onClick }: PetButtonT) {
+export default function PetButton({ children, className, actionType, onClick, disabled }: PetButtonT) {
   const [isOpen, setIsOpen] = useState(false);
   if (actionType === "checkout") {
     return (
-      <Button variant="secondary" className={cn("", className)} onClick={onClick}>
+      <Button disabled={disabled} variant="secondary" className={cn("", className)} onClick={onClick}>
         {children}
       </Button>
     );
@@ -36,6 +36,7 @@ export default function PetButton({ children, className, actionType, onClick }: 
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{actionType === "add" ? "Add a new pet" : "Edit pet"}</DialogTitle>
+          <DialogDescription>Image string can be empty</DialogDescription>
         </DialogHeader>
         <PetForm actionType={actionType} setIsOpen={() => setIsOpen(false)} />
         {/* <DialogFooter>Dialog footer</DialogFooter> */}

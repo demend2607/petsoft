@@ -1,19 +1,18 @@
-export type PetSoft = {
-  id: string;
-  ownerName: string;
-  name: string;
-  imageUrl: string;
-  age: number;
-  notes: string;
-};
+import { Pet } from "@/generated/prisma";
+
+export type PetFormData = Omit<Pet, "id" | "createdAt" | "updatedAt">;
 
 export type PetsStoreT = {
-  pets: PetSoft[];
-  selectedPetId: null | string;
-  setPets: (pets: PetSoft[]) => void;
-  selectedPet: () => PetSoft | undefined | null;
-  setSelectedPetId: (petId: string) => void;
-  addPet: (newPet: Omit<PetSoft, "id">) => void;
-  editPet: (petId: string, updatedPet: Omit<PetSoft, "id">) => void;
-  checkoutPet: (petId: string) => void;
+  pets: Pet[];
+  selectedPetId: Pet["id"];
+  loading: boolean;
+  error: string | null;
+
+  setPets: (pets: Pet[]) => void;
+  setSelectedPetId: (petId: Pet["id"]) => void;
+  selectedPet: () => Pet | undefined;
+
+  addPet: (pet: PetFormData) => Promise<void>;
+  editPet: (petId: Pet["id"], pet: PetFormData) => void;
+  checkoutPet: (petId: Pet["id"]) => void;
 };

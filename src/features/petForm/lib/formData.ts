@@ -1,6 +1,6 @@
-import { PetSoft } from "@/entities/dashboard/model/types";
+import { PetFormData } from "@/entities/dashboard/model/types";
 
-export const getPetFormData = (formData: FormData): Omit<PetSoft, "id"> => ({
+export const getPetFormData = (formData: FormData): PetFormData => ({
   name: formData.get("name") as string,
   ownerName: formData.get("ownerName") as string,
   imageUrl: (formData.get("imageUrl") as string) || "https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png",

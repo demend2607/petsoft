@@ -1,86 +1,109 @@
 "use client";
 
 import { usePetsStore } from "@/entities/dashboard/model/store";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/shared/components/ui/button";
+import { getPetFormData } from "@/features/petForm/lib/formData";
+import { toast } from "sonner";
 import { Label } from "@/shared/components/ui/label";
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { TPetForm } from "../lib/types";
 
-import { getPetFormData } from "../lib/formData";
+import PetFormBtn from "./PetFormBtn";
+import { type } from "./../../petSearch/lib/types";
 
 export default function PetForm({ actionType, setIsOpen }: { actionType: "add" | "edit"; setIsOpen: () => void }) {
-  const { addPet, editPet, selectedPet } = usePetsStore((state) => state);
+  const { selectedPet, addPet, editPet } = usePetsStore((state) => state);
+  const {
+    register,
+    formState: { isSubmitted, errors },
+  } = useForm<TPetForm>({ name: "", ownerName: "", imageUrl: "", age: 0, notes: "" });
+
   const petValue = selectedPet();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const formAction = async (formData: FormData) => {
+    const petData = getPetFormData(formData);
 
-    const pet = getPetFormData(new FormData(e.currentTarget));
-    if (actionType === "add") {
-      addPet(pet);
+    try {
+      if (actionType === "add") {
+        await addPet(petData);
+        toast.success("Successfully added pet");
+      } else if (petValue) {
+        await editPet(petValue!.id, petData);
+        toast.success("Successfully updated pet");
+      }
+      setIsOpen();
+    } catch (error) {
+      console.error("Form submission failed:", error);
+      toast.error("Form submission failed");
     }
-    if (actionType === "edit" ) {
-      editPet(petValue!.id, pet);
-    }
-
-    setIsOpen();
   };
+
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
+    <form action={formAction} className="flex flex-col">
       <div className="space-y-3">
         {actionType === "add" ? (
           <>
             <div className="space-y-1">
-              <Label htmlFor="Name">Name</Label>
-              <Input type="text" id="Name" name="name" required />
+              <Label htmlFor="name">Name</Label>
+              <Input type="text" id="name" name="name" />
+              {errors.name && <span className="text-red-500">{errors.name.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="ownerName">Owner Name</Label>
-              <Input type="text" id="ownerName" name="ownerName" required />
+              <Input type="text" id="ownerName" {...register("name", { required: "Name is required" })} />
+              {errors.ownerName && <span className="text-red-500">{errors.ownerName.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="imageUrl">Image Url</Label>
-              <Input type="text" id="imageUrl" name="imageUrl" />
+              <Input type="text" id="imageUrl" {...register("imageUrl")} />
+              {errors.imageUrl && <span className="text-red-500">{errors.imageUrl.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="age">Age</Label>
-              <Input type="number" id="age" name="age" required />
+              <Input type="number" id="age" {...register("age", { required: "Age is required" })} />
+              {errors.age && <span className="text-red-500">{errors.age.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="notes">Notes</Label>
-              <Textarea id="notes" name="notes" required />
+              <Textarea id="notes" {...register("notes", { required: "Notes is required" })} />
+              {errors.notes && <span className="text-red-500">{errors.notes.message}</span>}
             </div>
           </>
         ) : (
           <>
             <div className="space-y-1">
-              <Label htmlFor="Name">Name</Label>
-              <Input type="text" id="Name" name="name" required defaultValue={actionType === "edit" ? petValue?.name : ""} />
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" {...register("name", { required: "Name is required" })} />
+              {errors.name && <span className="text-red-500">{errors.name.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="ownerName">Owner Name</Label>
-              <Input type="text" id="ownerName" name="ownerName" required defaultValue={actionType === "edit" ? petValue?.ownerName : ""} />
+              <Input id="ownerName" {...register("ownerName", { required: "Owner name is required" })} />
+              {errors.ownerName && <span className="text-red-500">{errors.ownerName.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="imageUrl">Image Url</Label>
-              <Input type="text" id="imageUrl" name="imageUrl" defaultValue={actionType === "edit" ? petValue?.imageUrl : ""} />
+              <Input id="imageUrl" {...register("imageUrl")} />
+              {errors.imageUrl && <span className="text-red-500">{errors.imageUrl.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="age">Age</Label>
-              <Input type="number" id="age" name="age" required defaultValue={actionType === "edit" ? petValue?.age : ""} />
+              <Input type="number" id="age" {...register("age", { required: "Age is required" })} />
+              {errors.age && <span className="text-red-500">{errors.age.message}</span>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="notes">Notes</Label>
-              <Textarea id="notes" name="notes" required defaultValue={actionType === "edit" ? petValue?.notes : ""} />
+              <Textarea id="notes" {...register("notes", { required: "Notes is required" })} />
+              {errors.notes && <span className="text-red-500">{errors.notes.message}</span>}
             </div>
           </>
         )}
       </div>
 
-      <Button type="submit" className="mt-5 self-end">
-        {actionType === "add" ? "Add a new Pet" : "Edit Pet"}
-      </Button>
+      <PetFormBtn actionType={actionType} />
     </form>
   );
 }

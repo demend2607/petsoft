@@ -3,4 +3,5 @@ export type PetButtonT = {
   className?: string;
   actionType: "add" | "edit" | "checkout";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
 };
