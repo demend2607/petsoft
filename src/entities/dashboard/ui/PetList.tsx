@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { usePetsStore } from "../model/store";
 import { usePetSearchStore } from "@/features/petSearch/lib/store";
@@ -11,15 +11,15 @@ import { Pet } from "@/generated/prisma";
 
 export default function PetList({ initialPets }: { initialPets: Pet[] }) {
   const { setPets, pets } = usePetsStore();
-  const { searchQuery, filteredPets, filterPets } = usePetSearchStore((state) => state);
+  const { searchQuery } = usePetSearchStore((state) => state);
 
   useEffect(() => {
     setPets(initialPets);
   }, [initialPets]);
 
-  useEffect(() => {
-    filterPets(pets);
-  }, [searchQuery, pets]);
+  const filteredPets = useMemo(() => {
+    return pets.filter((pet) => pet.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  }, [pets, searchQuery]);
 
   return (
     <ul className="content-block relative">

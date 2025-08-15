@@ -1,9 +1,11 @@
-import { PetFormData } from "@/entities/dashboard/model/types";
+import { TPetForm } from "@/shared/lib/validation";
 
-export const getPetFormData = (formData: FormData): PetFormData => ({
+import { BASE_PET_IMAGE } from "@/shared/lib/constants";
+
+export const getPetFormData = (formData: FormData): TPetForm => ({
   name: formData.get("name") as string,
   ownerName: formData.get("ownerName") as string,
-  imageUrl: (formData.get("imageUrl") as string) || "https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png",
+  imageUrl: (formData.get("imageUrl") as string) || BASE_PET_IMAGE,
   age: +(formData.get("age") as string),
   notes: formData.get("notes") as string,
 });

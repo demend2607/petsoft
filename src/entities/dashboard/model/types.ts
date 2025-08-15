@@ -1,6 +1,5 @@
 import { Pet } from "@/generated/prisma";
-
-export type PetFormData = Omit<Pet, "id" | "createdAt" | "updatedAt">;
+import { TPetForm } from "@/shared/lib/validation";
 
 export type PetsStoreT = {
   pets: Pet[];
@@ -10,9 +9,9 @@ export type PetsStoreT = {
 
   setPets: (pets: Pet[]) => void;
   setSelectedPetId: (petId: Pet["id"]) => void;
-  selectedPet: () => Pet | undefined;
+  selectedPet: () => Pet;
 
-  addPet: (pet: PetFormData) => Promise<void>;
-  editPet: (petId: Pet["id"], pet: PetFormData) => void;
-  checkoutPet: (petId: Pet["id"]) => void;
+  addPet: (pet: TPetForm) => Promise<void>;
+  editPet: (petId: Pet["id"], pet: TPetForm) => Promise<void>;
+  checkoutPet: (petId: Pet["id"]) => Promise<void>;
 };

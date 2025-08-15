@@ -6,6 +6,7 @@ import { devtools } from "zustand/middleware";
 import { addPet, deletePet, updatePet } from "../../../features/petForm/lib/prisma_actions";
 
 import { PetsStoreT } from "./types";
+import { toast } from "sonner";
 
 export const usePetsStore = create<PetsStoreT>()(
   devtools((set, get, api) => ({
@@ -22,51 +23,36 @@ export const usePetsStore = create<PetsStoreT>()(
     },
     selectedPet: () => {
       const selectedPetId = get().selectedPetId;
-      if (!selectedPetId) return undefined;
+      if (!selectedPetId) return;
+      // console.log(selectedPetId);
+
       return get().pets.find((pet) => pet.id === selectedPetId);
     },
     addPet: async (pet) => {
-      try {
-        const createdPet = await addPet(pet);
+      const result = await addPet(pet);
+      console.log(result);
 
-        set((state) => ({
-          pets: [...state.pets, createdPet],
-          error: null,
-          selectedPetId: createdPet.id,
-        }));
-      } catch (error) {
-        set({
-          error: error instanceof Error ? error.message : "Failed to add pet",
-        });
-        throw error;
+      if (result.error) {
+        return toast.warning(result.error);
+      }
+      if (result.id) {
+        get().setSelectedPetId(result.id);
+        toast.success("Successfully added pet");
       }
     },
     editPet: async (petId, pet) => {
-      try {
-        await updatePet(petId, pet);
-
-        set((state) => ({
-          pets: state.pets.map((pet) => (pet.id === petId ? { ...pet, ...pet } : pet)),
-          error: null,
-        }));
-      } catch (error) {
-        set({
-          error: error instanceof Error ? error.message : "Failed to update pet",
-        });
-        throw error;
+      const error = await updatePet(petId, pet);
+      if (error) {
+        return toast.warning(error.message);
       }
+      toast.success("Successfully updated pet");
     },
     checkoutPet: async (petId) => {
-      try {
-        await deletePet(petId);
-
-        set((state) => ({ pets: state.pets.filter((pet) => pet.id !== petId), error: null }));
-      } catch (error) {
-        set({
-          error: error instanceof Error ? error.message : "Failed to remove pet",
-        });
-        throw error;
+      const error = await deletePet(petId);
+      if (error) {
+        return toast.warning(error.message);
       }
+      toast.success("Successfully deleted pet");
     },
   }))
 );
