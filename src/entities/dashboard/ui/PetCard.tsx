@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { usePetsStore } from "../model/store";
 import { cn } from "@/shared/lib/hooks/utils";
-import { Pet } from "@/generated/prisma";
+import { Pet } from "../../../../prisma/generated/client";
 
 export default function PetCard({ pet }: { pet: Pet }) {
   const { setSelectedPetId, selectedPetId } = usePetsStore((state) => state);

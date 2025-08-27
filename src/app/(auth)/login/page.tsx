@@ -1,11 +1,11 @@
-import AuthForm from "@/entities/auth/ui/AuthForm";
-import AuthP from "@/entities/auth/ui/AuthP";
+import AuthForm from "@/features/auth/ui/AuthForm";
+import AuthP from "@/features/auth/ui/AuthP";
 
 export default async function Page() {
   return (
     <main>
       <h1 className="h1 text-center mb-3">Log In</h1>
-      <AuthForm />
+      <AuthForm type="logIn" />
       <AuthP />
     </main>
   );

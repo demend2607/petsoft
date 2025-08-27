@@ -4,6 +4,7 @@ import PetList from "@/entities/dashboard/ui/PetList";
 import PetDetails from "@/entities/dashboard/ui/PetDetails";
 import SearchForm from "@/features/petSearch/ui/SearchForm";
 import PetStats from "@/entities/dashboard/ui/PetStats";
+
 import { Toaster } from "@/shared/components/ui/sonner";
 
 export default async function Page() {

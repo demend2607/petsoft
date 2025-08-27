@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 
 import prisma from "@/shared/lib/prismaDB";
 import { sleep } from "@/shared/lib/hooks/utils";
-import { Pet } from "@/generated/prisma";
+import { Pet } from "../../../../prisma/generated/client";
+
 import { TPetForm, petFormSchema, petIdSchema } from "@/shared/lib/validation";
 import { safeParse } from "zod/v4/core";
 
